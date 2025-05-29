@@ -17,7 +17,7 @@ class ClubService:
 
     @classmethod
     @safe_executor(with_transaction=True)
-    def save(cls, data: Dict, instance: Optional[TMClub]) -> TMClub:
+    def save(cls, data: Dict, instance: Optional[TMClub] = None) -> TMClub:
         """
         Save the toastmaster club instance with the provided data.
         If an instance is provided, update it; otherwise, create a new one.
@@ -26,4 +26,3 @@ class ClubService:
         :return: the saved TMClub instance
         """
         return save_data(TMClub, data, instance)
-
