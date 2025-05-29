@@ -1,0 +1,56 @@
+services:
+  elasticsearch:
+    restart: always
+    image: "elasticsearch:7.17.9"
+    container_name: tm-elasticsearch
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+
+  kibana:
+#    platform: linux/x86_64
+    image: 'docker.elastic.co/kibana/kibana:7.17.9'
+    container_name: tm-kibana
+    environment:
+      SERVER_NAME: elasticsearch
+      ELASTICSEARCH_URL: 'http://elasticsearch:9200'
+    ports:
+      - '5601:5601'
+
+  mysql:
+#    platform: linux/x86_64
+    restart: always
+    image: "mysql:8.0.28"
+    container_name: tm-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_PASSWORD:-123456}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE:-olivia_dev}"
+      MYSQL_ROOT_HOST: "%"
+    volumes:
+      - ./mysql:/etc/mysql/conf.d
+      - ./mysqldump/:/docker-entrypoint-initdb.d/
+      - mysql-8-data:/var/lib/mysql
+    cap_add:
+      - SYS_NICE
+
+  redis:
+    restart: always
+    container_name: tm-redis
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  elasticsearch-data:
+  mysql-8-data:
+  redis-data:
