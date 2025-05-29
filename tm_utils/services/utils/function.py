@@ -1,28 +1,9 @@
 from functools import wraps
 from typing import Optional, Callable, TypeVar, Dict, Type
-from logging import LoggerAdapter, getLogger
 
 from django.db import transaction
 
 T = TypeVar('T')  # generic type variable
-
-def save_data(model_class: Type[T], data: Dict, instance: Optional[T]) -> T:
-    """
-    Generic save method for any Django model.
-    :param model_class: the model class to instantiate if no instance is provided
-    :param data: dictionary of field data
-    :param instance: optional existing instance to update
-    :return: saved model instance
-    """
-    obj = instance or model_class()
-    update_fields = [field for field in data if hasattr(obj, field)]
-
-    for field in update_fields:
-        setattr(obj, field, data[field])
-
-    if update_fields:
-        obj.save(update_fields=update_fields)
-    return obj
 
 
 def safe_executor(with_transaction=False, re_raise=False, default=None, default_factory=None, with_log=False):
@@ -41,6 +22,26 @@ def safe_executor(with_transaction=False, re_raise=False, default=None, default_
         return wrapped
 
     return decorator
+
+@safe_executor(with_transaction=True)
+def save_data(model_class: Type[T], data: Dict, instance: Optional[T]) -> T:
+    """
+    Generic save method for any Django model.
+    :param model_class: the model class to instantiate if no instance is provided
+    :param data: dictionary of field data
+    :param instance: optional existing instance to update
+    :return: saved model instance
+    """
+    obj = instance or model_class()
+    update_fields = [field for field in data if hasattr(obj, field)]
+
+    for field in update_fields:
+        setattr(obj, field, data[field])
+
+    if update_fields:
+        obj.save(update_fields=update_fields)
+    return obj
+
 
 def safe_execute(func, *args, **kwargs):
     with_transaction = kwargs.pop("with_transaction", False)
