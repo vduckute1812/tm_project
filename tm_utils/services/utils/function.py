@@ -23,7 +23,7 @@ def safe_executor(with_transaction=False, re_raise=False, default=None, default_
 
     return decorator
 
-@safe_executor(with_transaction=True)
+@safe_executor(with_transaction=True, with_log=True)
 def save_data(model_class: Type[T], data: Dict, instance: Optional[T]) -> T:
     """
     Generic save method for any Django model.

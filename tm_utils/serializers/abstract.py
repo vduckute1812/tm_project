@@ -17,6 +17,7 @@ class BaseSerializer(serializers.Serializer):
 
     @property
     def _model(self):
-        if not getattr(self.Meta, "model", None):
+        model = getattr(self.Meta, "model", None)
+        if not model:
             raise NotImplementedError("You must set 'model' in Meta class.")
-        return self.Meta.model
+        return model

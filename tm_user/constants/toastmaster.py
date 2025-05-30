@@ -37,3 +37,8 @@ class Level(Enum):
             cls.LEVEL_5_1: "Level 5.1",
             cls.LEVEL_5_2: "Level 5.2",
         }.get(value, "Unknown")
+
+
+class VerificationType:
+    NEW_GUEST = 1   # For new Guest, we send verification code to Guest after they register
+    TOASTMASTER = 2 # We send verification code to Guest after they paid for Toastmaster membership
