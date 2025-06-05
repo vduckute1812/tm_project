@@ -25,7 +25,7 @@ class GuestAuthentication(BaseAuthentication):
         try:
             login = TMUserAuth.objects.get(token=token, verification_type=VerificationType.NEW_GUEST)
         except TMUserAuth.DoesNotExist:
-            raise
+            raise InvalidToken()
         if self.token_expired(login):
             raise TokenExpired()
         return login.user, login.token
