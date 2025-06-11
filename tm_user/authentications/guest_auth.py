@@ -5,7 +5,7 @@ from rest_framework import authentication
 from rest_framework.authentication import BaseAuthentication
 
 from tm_user.constants.toastmaster import VerificationType
-from tm_user.models.register_form import TMRegisterForm
+from tm_user.models.user_auth import TMUserAuth
 from tm_utils.exceptions.tm_user import TokenExpired, TokenRequired, InvalidToken
 
 
@@ -23,9 +23,9 @@ class GuestAuthentication(BaseAuthentication):
 
     def authenticate_credentials(self, token):
         try:
-            login = TMRegisterForm.objects.get(token=token, verification_type=VerificationType.NEW_GUEST)
-        except TMRegisterForm.DoesNotExist:
-            raise
+            login = TMUserAuth.objects.get(token=token, verification_type=VerificationType.NEW_GUEST)
+        except TMUserAuth.DoesNotExist:
+            raise InvalidToken()
         if self.token_expired(login):
             raise TokenExpired()
         return login.user, login.token
