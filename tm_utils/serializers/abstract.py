@@ -1,4 +1,4 @@
-from typing import Dict, Type
+from typing import Dict
 
 from rest_framework import serializers
 
