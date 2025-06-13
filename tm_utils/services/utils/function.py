@@ -2,8 +2,9 @@ from functools import wraps
 from typing import Optional, Callable, TypeVar, Dict, Type
 
 from django.db import transaction
+from django.db.models import Model
 
-T = TypeVar('T')  # generic type variable
+M = TypeVar("M", bound=Model)
 
 
 def safe_executor(with_transaction=False, re_raise=False, default=None, default_factory=None, with_log=False):
@@ -24,7 +25,7 @@ def safe_executor(with_transaction=False, re_raise=False, default=None, default_
     return decorator
 
 @safe_executor(with_transaction=True, with_log=True)
-def save_data(model_class: Type[T], data: Dict, instance: Optional[T]) -> T:
+def save_data(model_class: Type[T], data: Dict, instance: Optional[M]) -> M:
     """
     Generic save method for any Django model.
     :param model_class: the model class to instantiate if no instance is provided
