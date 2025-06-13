@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'tm_role',
     'tm_user',
     'tm_club',
+    'tm_meeting',
 ]
 
 MIDDLEWARE = [
