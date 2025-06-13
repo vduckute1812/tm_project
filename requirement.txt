@@ -4,3 +4,4 @@ djangorestframework
 django
 django-split-settings
 django-environ
+mysqlclient
