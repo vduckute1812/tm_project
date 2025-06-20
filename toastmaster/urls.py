@@ -16,10 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import HttpResponse
 
-from tm_club.views.club import ClubView
+def home(request):
+    return HttpResponse("Welcome to Toastmaster!")
 
 urlpatterns = [
+       path('', home, name='home'),
        path('admin/', admin.site.urls),
        path("club/",  include("tm_club.router", namespace="club"))
 ]

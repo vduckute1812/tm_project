@@ -1,4 +1,4 @@
-from toastmaster import tm_local
+from toastmaster.settings import tm_local
 from django.utils.deprecation import MiddlewareMixin
 
 class APIMiddleware(MiddlewareMixin):

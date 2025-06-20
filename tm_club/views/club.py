@@ -14,7 +14,7 @@ from tm_club.services.club import ClubService
 from tm_utils.mixins.view import GenericViewMixin
 
 
-class ClubView(GenericViewMixin):
+class ClubViewSet(GenericViewMixin):
     # TODO: user_id = Utils.get_user_id(request) -> Need to build a method to get user_id from request
     #  this user_id should belong to the club, otherwise return 403 Forbidden.
 
