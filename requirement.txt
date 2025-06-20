@@ -1,3 +1,7 @@
 django-environ==0.10.0
 django-authtools
 djangorestframework
+django
+django-split-settings
+django-environ
+mysqlclient

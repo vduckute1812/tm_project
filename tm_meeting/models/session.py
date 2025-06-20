@@ -11,5 +11,5 @@ class TMSession(models.Model):
     type = PositiveTinyIntegerField(default=SessionType.UNKNOWN)
 
     class Meta:
-        db_name = "tm_session"
+        db_table = "tm_session"
         indexes = [models.Index(fields=['meeting'], name='idx_session_meeting')]

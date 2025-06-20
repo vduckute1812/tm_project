@@ -1,11 +1,11 @@
-from typing import Dict, Type
+from typing import Dict
 
 from rest_framework import serializers
 
 from tm_utils.services.utils.function import save_data
 
 
-class BaseSerializer(serializers.Serializer):
+class BaseSerializer(serializers.ModelSerializer):
     class Meta:
         abstract = True
 
@@ -17,6 +17,7 @@ class BaseSerializer(serializers.Serializer):
 
     @property
     def _model(self):
-        if not getattr(self.Meta, "model", None):
+        model = getattr(self.Meta, "model", None)
+        if not model:
             raise NotImplementedError("You must set 'model' in Meta class.")
-        return self.Meta.model
+        return model
