@@ -3,6 +3,7 @@ from typing import List
 
 from rest_framework import authentication
 from rest_framework.authentication import BaseAuthentication
+from rest_framework import generics, permissions
 
 from tm_user.constants.toastmaster import VerificationType
 from tm_user.models.user_auth import TMUserAuth
@@ -11,10 +12,11 @@ from tm_utils.exceptions.tm_user import TokenExpired, TokenRequired, InvalidToke
 
 class GuestAuthentication(BaseAuthentication):
     authenticate_token = "tm-guest-token"
-
+ 
     def authenticate(self, request):
         auth = authentication.get_authorization_header(request).split()
         auth_type = auth and auth[0].decode("utf-8").lower()
+        
         if auth_type == self.authenticate_token:
             token = self.validate_token(auth=auth)
             return self.authenticate_credentials(token)
@@ -37,13 +39,9 @@ class GuestAuthentication(BaseAuthentication):
     def validate_token(auth: List[str]) -> str:
         if len(auth) == 1:
             raise TokenRequired()
-        elif len(auth) > 2:
+        elif not auth or len(auth) > 2:
             raise InvalidToken()
-        try:
-            token = auth[1]
-        except UnicodeError:
-            raise InvalidToken()
-        return token
+        return auth[1]
 
     @staticmethod
     def token_expired(token):

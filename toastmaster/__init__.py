@@ -1,5 +1,6 @@
 import environ
 from os.path import dirname, join, exists
+from threading import local
 
 env = environ.Env()
 
@@ -11,3 +12,5 @@ if not exists(env_file):
 
 if exists(env_file):
     environ.Env.read_env(str(env_file))
+
+tm_local = local()
