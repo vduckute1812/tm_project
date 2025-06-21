@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from tm_club.models.club import TMClub
+from tm_club.models.division import TMDivision
+
+admin.site.register(TMClub)
+admin.site.register(TMDivision)
