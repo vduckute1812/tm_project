@@ -4,7 +4,7 @@ from typing import Optional
 
 class AccessControlService:
     @classmethod
-    def get_club_id(cls, request=None, raise_exception=True) -> Optional[int]:
+    def get_club_id(cls, request=None, raise_exception=True) -> Optional[str]:
         """
         Get the club ID from the local access control for the given request.
         """
@@ -23,7 +23,7 @@ class AccessControlService:
         """
         if request:
             request.club_id = club_id
-        AccessControlManager.set_property("club_id", club_id)
+        AccessControlManager.set_property("club_id", str(club_id))
 
 
 class AccessControlManager:

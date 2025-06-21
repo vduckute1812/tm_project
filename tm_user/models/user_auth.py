@@ -15,6 +15,7 @@ class TMUserAuth(TimeStampedModel):
     expired_at = models.DateTimeField(auto_now=False)
     token_expired_at = models.DateTimeField(auto_now=False)
     verification_type = PositiveTinyIntegerField(default=VerificationType.NEW_GUEST)
+    token_type = models.IntegerField()
 
     class Meta:
         db_table = "tm_user_auth"

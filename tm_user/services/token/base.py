@@ -3,6 +3,9 @@ from django.conf import settings
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict
 
+from tm_user.constants.token import TokenKey
+
+
 class BaseToken:
     expire_minutes = 60  # default expiry time
 
@@ -13,10 +16,9 @@ class BaseToken:
         :param expire_minutes: Minutes until the token expires.
         :return: Encoded token string.
         """
-        if expire_minutes is None:
-            expire_minutes = self.expire_minutes
+        expire_minutes = expire_minutes or self.expire_minutes
         payload = payload.copy()
-        payload["exp"] = datetime.now(timezone.utc) + timedelta(minutes=expire_minutes)
+        payload[TokenKey.EXPIRED_AT] = datetime.now(timezone.utc) + timedelta(minutes=expire_minutes)
         return jwt.encode(payload, self.__secret_key, algorithm=self.__algorithm)
 
     def decode(self, token: str) -> Dict[str, Any]:
