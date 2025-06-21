@@ -3,7 +3,6 @@ from typing import List
 
 from rest_framework import authentication
 from rest_framework.authentication import BaseAuthentication
-from rest_framework import generics, permissions
 
 from tm_user.constants.toastmaster import VerificationType
 from tm_user.models.user_auth import TMUserAuth
@@ -11,7 +10,13 @@ from tm_utils.exceptions.tm_user import TokenExpired, TokenRequired, InvalidToke
 
 
 class GuestAuthentication(BaseAuthentication):
-    authenticate_token = "tm-guest-token"
+    """Authentication class for guest users in the Toastmaster application.
+    This class handles the authentication of guest users using a token-based system.
+    It checks the provided token against the database and verifies its validity.
+    If the token is valid and not expired, it returns the associated user and token.
+    If the token is invalid or expired, it raises appropriate exceptions.
+    """
+    authenticate_token = "tm-guest-token"   # It is recommended to use a constant for the token type
  
     def authenticate(self, request):
         auth = authentication.get_authorization_header(request).split()

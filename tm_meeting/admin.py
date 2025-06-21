@@ -1,6 +1,5 @@
 from django.contrib import admin
-
-# Register your models here.
+from tm_meeting.models import TMMeeting, TMSession, TMSpeech
 
 admin.site.register(TMMeeting)
 admin.site.register(TMSession)

@@ -16,7 +16,5 @@ class IsAuthenticated(permissions.BasePermission):
     Global permission check for login user access
     """
 
-    validator = BaseObjectPermissionValidator
-
     def has_permission(self, request, view):
         return True
